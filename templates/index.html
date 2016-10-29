@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% block title %}HumanGeo Extra Life{% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %}
+
+{% block content %}
+  <div class="container" style="padding-top: 70px;">
+    <div class="jumbotron text-center">
+      <h1>HumanGeo Extra Life</h1>
+      <p>Watch and/or donate to your favorite HumanGeo Extra Lifers!</p>
+    </div>
+  </div>
+  {% for s in streams %}
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <img class="img-responsive" src="{{ s.preview }}"/>
+        </div>
+        <div class="col-md-4">
+          <h1>{{ s.username }}</h1>
+          <h4>Playing: {{ s.playing }}</h2>
+          <h4>Viewers: {{ s.viewers }}</h2>
+          <a href="{{ s.url }}" target="_blank">Watch now!</a>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% endblock %}
