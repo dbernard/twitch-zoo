@@ -26,6 +26,18 @@
           <h4>Viewers: {{ s.viewers }}</h2>
           <a href="{{ s.url }}" target="_blank">Watch now!</a>
         </div>
+        {% if s.participant_id %}
+        <div class="col-md-4">
+          <iframe
+            src="http://www.extra-life.org/index.cfm?fuseaction=widgets.300x250thermo&participantID={{ s.participant_id }}"
+            width="302"
+            height="252"
+            frameborder="0"
+            scrolling="no">
+              <a href="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&participantID={{ s.participant_id }}">Make a Donation!</a>
+          </iframe>
+        </div>
+        {% endif %}
       </div>
     </div>
   {% endfor %}

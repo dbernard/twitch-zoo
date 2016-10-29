@@ -8,7 +8,7 @@ config = configparser.ConfigParser()
 config.read('config/config.ini')
 
 client_id = config['APP']['CLIENT_ID']
-users = config['APP']['USERS'].split(',') or []
+users = config['APP']['USERS'].split(',')
 
 
 def create_app():
@@ -32,13 +32,14 @@ def get_twitch_stream(user):
     return json.loads(r.text)
 
 
-def build_streamer_json(user, stream):
+def build_streamer_json(user, stream, participant_id):
     s = {
         'username': user,
         'playing': 'Offline',
         'viewers': 0,
         'url': '#',
-        'preview': 'http://placehold.it/640x360'
+        'preview': 'http://placehold.it/640x360',
+        'participant_id': participant_id
     }
 
     if not stream['stream']:
@@ -57,9 +58,13 @@ def get_streams(streamers):
     streams = []
 
     for user in streamers:
+        if '|' in user:
+            user, participant_id = user.split('|')
+        else:
+            participant_id = None
         try:
             stream = get_twitch_stream(user)
-            info = build_streamer_json(user, stream)
+            info = build_streamer_json(user, stream, participant_id)
             streams.append(info)
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", user, htp)
