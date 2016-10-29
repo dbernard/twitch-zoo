@@ -8,7 +8,7 @@ config = configparser.ConfigParser()
 config.read('config/config.ini')
 
 client_id = config['APP']['CLIENT_ID']
-users = config['APP']['USERS'].split(',')
+users = config['APP']['USERS'].split(',') or []
 
 
 def create_app():
@@ -28,6 +28,7 @@ def get_twitch_stream(user):
                                                                       client_id)
     r = requests.get(url, headers=headers)
 
+    r.raise_for_status()
     return json.loads(r.text)
 
 
@@ -56,9 +57,12 @@ def get_streams(streamers):
     streams = []
 
     for user in streamers:
-        stream = get_twitch_stream(user)
-        info = build_streamer_json(user, stream)
-        streams.append(info)
+        try:
+            stream = get_twitch_stream(user)
+            info = build_streamer_json(user, stream)
+            streams.append(info)
+        except requests.exceptions.HTTPError as htp:
+            app.logger.error("Couldn't load user '%s': %s", user, htp)
 
     return streams
 
