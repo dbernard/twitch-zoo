@@ -39,7 +39,9 @@ def build_streamer_json(user, stream, participant_id):
         'viewers': 0,
         'url': '#',
         'preview': 'http://placehold.it/640x360',
-        'participant_id': participant_id
+        'participant_id': participant_id,
+        'fps': 0,
+        'views': 0
     }
 
     if not stream['stream']:
@@ -50,6 +52,8 @@ def build_streamer_json(user, stream, participant_id):
     s['viewers'] = stream['stream']['viewers']
     s['url'] = stream['stream']['channel']['url']
     s['preview'] = stream['stream']['preview']['large']
+    s['fps'] = stream['stream']['average_fps']
+    s['views'] = stream['stream']['channel']['views']
 
     return s
 
@@ -86,5 +90,5 @@ def streamers():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 
