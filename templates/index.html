@@ -1,6 +1,12 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}HumanGeo Extra Life{% endblock %}
 
+{% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{ url_for('.static', filename='app.css')}}">
+<link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+{% endblock %}
+
 {% block navbar %}
 <div class="navbar navbar-fixed-top">
   <!-- ... -->
@@ -8,23 +14,48 @@
 {% endblock %}
 
 {% block content %}
-  <div class="container" style="padding-top: 70px;">
-    <div class="jumbotron text-center">
-      <h1>HumanGeo Extra Life</h1>
-      <p>Watch and/or donate to your favorite HumanGeo Extra Lifers!</p>
+  <div class="container header">
+    <div class="row">
+      <div class="col-md-12">
+        <img class="img-responsive" src="{{ url_for('.static', filename='images/Extra Life_whiteblue.png') }}">
+      </div>
+    </div>
+    <hr class="small" />
+    <div class="col-md-4 lead">
+      Join us on November 5th and watch the team raise money for great children's charities! You can see our team's progress
+      <a href="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=29327">here</a>!
+    </div>
+    <div class="col-md-8">
+      <img class="img-responsive" src="{{ url_for('.static', filename='images/logo.png') }}">
     </div>
   </div>
   {% for s in streams %}
     <div class="container">
-      <div class="row">
+      <div class="row"> 
         <div class="col-md-4">
-          <img class="img-responsive" src="{{ s.preview }}"/>
+          <div class="embed-responsive embed-responsive-16by9">
+            <!--<img class="img-responsive" src="{{ s.preview }}"/>-->
+            <iframe class="embed-responsive-item"
+                src="http://player.twitch.tv/?channel={{ s.username }}" 
+                height="360" 
+                width="640" 
+                frameborder="0" 
+                scrolling="no"
+                allowfullscreen="true">
+            </iframe>
+          </div>
         </div>
         <div class="col-md-4">
-          <h1>{{ s.username }}</h1>
-          <h4>Playing: {{ s.playing }}</h2>
-          <h4>Viewers: {{ s.viewers }}</h2>
-          <a href="{{ s.url }}" target="_blank">Watch now!</a>
+          <h1 class="title">{{ s.username }}</h1>
+          <h4><span class="light-key">Playing:</span> {{ s.playing }}</h4>
+          <h4><span class="light-key">Viewers:</span> {{ s.viewers }}</h4>
+          <p class="light-text">
+            <div class="row">
+              <div class="col-md-3"><i class="glyphicon glyphicon-film"></i> {{ s.fps | round(2) }}</div>
+              <div class="col-md-3"><i class="glyphicon glyphicon-eye-open"></i> {{ s.views }}</div>
+            </div>
+          </p>
+          <a class="light-key" href="{{ s.url }}" target="_blank">Watch on Twitch</a>
         </div>
         {% if s.participant_id %}
         <div class="col-md-4">
