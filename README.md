@@ -11,7 +11,7 @@ are not associated with HumanGeo).
 ![Sample webpage][example]
 
 
-[example]: img/example.png
+[example]: static/images/example.png
 
 ## Configuration
 
