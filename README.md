@@ -15,4 +15,16 @@ are not associated with HumanGeo).
 
 ## Configuration
 
-Edit the `config.ini` file with your Twitch API client ID and collection of users to monitor.  THe users collection can be either plain Twitch user names, or a pipe-delimited collection of Twitch usernames and Extra Life participant ID numbers (i.e. `user|participantId`).  If an Extra Life ID is associated with a username, a donation badge will appear alongside the stream.
+Edit the `config.ini` file with your Twitch API client ID and collection of users
+to monitor.  The users collection can be either plain Twitch user names, or a
+pipe-delimited collection of Twitch usernames and Extra Life participant ID
+numbers (i.e. `user|participantId`).  If an Extra Life ID is associated with a
+username, a donation link will appear alongside the stream.
+
+Example:
+```
+[APP]
+CLIENT_ID=[TWITCH_CLIENT_ID]
+USERS=USER1|214742,USER2,USER3|214742
+```
+

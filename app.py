@@ -12,6 +12,10 @@ users = config['APP']['USERS'].split(',')
 
 
 def create_app():
+    """Create the Flask app with Bootstrap requirements.
+
+    :return: The Flask app object
+    """
     app = Flask(__name__)
     Bootstrap(app)
 
@@ -22,6 +26,11 @@ app = create_app()
 
 
 def get_twitch_stream(user):
+    """Request a user's stream information from the Twitch API.
+
+    :param user: The streamer's username to query
+    :return: An object representing the user's stream / information
+    """
     headers = {'Accept': 'application/vnd.twitchtv.v3+json'}
 
     url = 'https://api.twitch.tv/kraken/streams/{}?client_id={}'.format(user,
@@ -33,6 +42,13 @@ def get_twitch_stream(user):
 
 
 def build_streamer_json(user, stream, participant_id):
+    """Compile useful streamer information from a stream object.
+
+    :param user: The username of the streamer
+    :param stream: The complete stream JSON object
+    :param participant_id: The user's Extra Life participant ID
+    :return: A subset object of relevant streamer info
+    """
     donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
     s = {
@@ -62,6 +78,12 @@ def build_streamer_json(user, stream, participant_id):
 
 
 def get_streams(streamers):
+    """Get stream information about each streamer provided.
+
+    :param streamers: A list of streamer usernames and their Extra Life
+                      participant ID's if applicable
+    :return: A list of relevant streamer info for each streamer
+    """
     streams = []
 
     for user in streamers:
@@ -81,12 +103,16 @@ def get_streams(streamers):
 
 @app.route('/')
 def index():
+    """Render the main index page with stream information.
+    """
     streams = get_streams(users)
     return render_template('index.html', streams=streams)
 
 
 @app.route('/streamers')
 def streamers():
+    """Get the JSON representation of stream information (useful for debugging).
+    """
     streams = get_streams(users)
 
     return jsonify(streams)
