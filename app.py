@@ -33,6 +33,8 @@ def get_twitch_stream(user):
 
 
 def build_streamer_json(user, stream, participant_id):
+    donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
+                 'participant&participantID={}'.format(participant_id)
     s = {
         'username': user,
         'playing': 'Offline',
@@ -40,6 +42,7 @@ def build_streamer_json(user, stream, participant_id):
         'url': '#',
         'preview': 'http://placehold.it/640x360',
         'participant_id': participant_id,
+        'donate': donate_url if participant_id else None,
         'fps': 0,
         'views': 0
     }
