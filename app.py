@@ -67,7 +67,7 @@ def build_streamer_json(user, stream, participant_id):
         return s
 
     s['username'] = stream['stream']['channel']['display_name']
-    s['playing'] = stream['stream']['game']
+    s['playing'] = stream['stream']['game'][:20]
     s['viewers'] = stream['stream']['viewers']
     s['url'] = stream['stream']['channel']['url']
     s['preview'] = stream['stream']['preview']['large']
