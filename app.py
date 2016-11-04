@@ -55,7 +55,7 @@ def build_streamer_json(user, stream, participant_id):
         'username': user,
         'playing': 'Offline',
         'viewers': 0,
-        'url': '#',
+        'url': 'https://www.twitch.tv/{}'.format(user),
         'preview': 'http://placehold.it/640x360',
         'participant_id': participant_id,
         'donate': donate_url if participant_id else None,
@@ -69,7 +69,6 @@ def build_streamer_json(user, stream, participant_id):
     s['username'] = stream['stream']['channel']['display_name']
     s['playing'] = stream['stream']['game'][:20]
     s['viewers'] = stream['stream']['viewers']
-    s['url'] = stream['stream']['channel']['url']
     s['preview'] = stream['stream']['preview']['large']
     s['fps'] = stream['stream']['average_fps']
     s['views'] = stream['stream']['channel']['views']
