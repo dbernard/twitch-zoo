@@ -33,3 +33,19 @@ a:hover {
     padding-bottom: 20px;
     bottom: 0px;
 }
+
+.flexed {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+}
+
+.card {
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.card-rows {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
