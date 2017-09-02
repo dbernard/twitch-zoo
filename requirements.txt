@@ -9,3 +9,5 @@ MarkupSafe==0.23
 requests==2.11.1
 visitor==0.1.3
 Werkzeug==0.11.11
+humanize==0.5.1
+pypubg==0.1.5
