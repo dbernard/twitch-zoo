@@ -97,8 +97,7 @@ def get_streams(streamers):
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", user, htp)
 
-    streams.sort(key=lambda s: s['playing'] != 'Offline', reverse=True)
-    return streams
+    return filter(lambda s: s['playing'] != 'Offline', streams)
 
 
 @app.route('/')
