@@ -1,0 +1,3 @@
+[APP]
+CLIENT_ID=your_twitch_client_id
+USERS=list_of_usernames
