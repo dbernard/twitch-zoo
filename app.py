@@ -113,7 +113,8 @@ def get_streams(streamers):
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", twitch, htp)
 
-    return filter(lambda s: s['playing'] != 'Offline', streams)
+    return list(sorted((s for s in streams if s['playing'] != 'Offline'),
+                       key=lambda s: s['viewers'], reverse=True))
 
 
 @app.route('/')
