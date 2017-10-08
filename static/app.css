@@ -49,3 +49,21 @@ a:hover {
     padding-top: 4px;
     padding-bottom: 4px;
 }
+
+#teamProgress {
+	margin-top: 20px;
+	height: 30px;
+}
+
+.progress {
+	background-color: #323232;
+}
+
+.progress-bar-success {
+	background-color: #77b300;
+}
+
+#teamProgress .progress-bar {
+	line-height: 30px;
+	font-size: 20px;
+}

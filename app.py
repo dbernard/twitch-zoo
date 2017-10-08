@@ -9,6 +9,7 @@ config.read('config/config.ini')
 
 client_id = config['APP']['CLIENT_ID']
 users = config['APP']['USERS'].split(',')
+team_id = config['APP']['TEAM_ID']
 
 
 def create_app():
@@ -105,7 +106,7 @@ def index():
     """Render the main index page with stream information.
     """
     streams = get_streams(users)
-    return render_template('index.html', streams=streams)
+    return render_template('index.html', streams=streams, team_id=team_id)
 
 
 @app.route('/streamers')
