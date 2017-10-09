@@ -67,3 +67,8 @@ a:hover {
 	line-height: 30px;
 	font-size: 20px;
 }
+
+.individual-progress.progress {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
