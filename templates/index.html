@@ -58,11 +58,14 @@
                  aria-valuenow="0">
                     Loading team progress...
                 </div>
+                <div class="progress-fundraising-link">
+                    <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}" target="_blank"><i class="glyphicon glyphicon-usd"></i> Donate to the team!</a>
+                </div>
             </div>
         </div>
     </div>
   </div>
-  <div class="">
+  <div class="streams">
   {% for s in streams %}
       <div class="col-md-4 card">
         <div class="embed-responsive embed-responsive-16by9">
@@ -85,6 +88,9 @@
                  aria-valuemax="0"
                  aria-valuenow="0">
                 Loading {{ s.username }}'s progress...
+            </div>
+            <div class="progress-fundraising-link">
+                <a href="{{ s.donate }}" target="_blank"><i class="glyphicon glyphicon-usd"></i> Donate to {{ s.username }}!</a>
             </div>
         </div>
         {% endif %}

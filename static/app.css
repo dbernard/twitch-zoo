@@ -53,10 +53,13 @@ a:hover {
 #teamProgress {
 	margin-top: 20px;
 	height: 30px;
+	line-height: 30px;
+	font-size: 20px;
 }
 
 .progress {
 	background-color: #323232;
+	position: relative;
 }
 
 .progress-bar-success {
@@ -64,11 +67,39 @@ a:hover {
 }
 
 #teamProgress .progress-bar {
-	line-height: 30px;
-	font-size: 20px;
+	line-height: inherit;
+	font-size: inherit;
 }
 
 .individual-progress.progress {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
+}
+
+.progress-fundraising-link {
+	display: none;
+	text-align: center;
+}
+
+.progress-fundraising-link a {
+	position: absolute;
+	display: block;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #77b30088;
+	color: #fff;
+	font-weight: bold;
+}
+
+.progress-fundraising-link a:hover {
+	text-decoration: none;
+}
+
+.progress:hover .progress-fundraising-link {
+	display: block;
+}
+
+.progress-fundraising-link .glyphicon {
+	top: 3px;
 }
