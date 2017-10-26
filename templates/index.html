@@ -23,17 +23,17 @@ window.TEAM_ID = '{{ team_id }}';
 {% endblock %}
 
 {% block content %}
-  <div class="container header">
+  <div class="header">
     <div class="row flexed hidden-sm hidden-xs">
-      <div class="col-md-2">
-        Join us on November 5th and watch the team raise money for great children's charities! You can see our team's progress
+      <div class="col-md-5">
+        Join us on November 4th 2017 and watch the team raise money for great children's charities! You can see our team's progress
         <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}">here</a>!
       </div>
       <div class="col-md-4">
         <img class="img-responsive" src="{{ url_for('.static', filename='images/Extra Life_whiteblue.png') }}">
       </div>
-      <div class="col-md-6">
-        <img class="img-responsive" src="{{ url_for('.static', filename='images/logo.png') }}">
+      <div class="col-md-3">
+        <img class="img-responsive" src="{{ url_for('.static', filename='images/dg.png') }}">
       </div>
     </div>
     <!-- Mobile visible header -->
@@ -45,7 +45,7 @@ window.TEAM_ID = '{{ team_id }}';
         <img class="img-responsive" src="{{ url_for('.static', filename='images/logo.png') }}">
       </div>
       <div class="col-sm-12 col-xs-12">
-        Join us on November 5th and watch the team raise money for great children's charities! You can see our team's progress
+        Join us on November 4th 2017 and watch the team raise money for great children's charities! You can see our team's progress
         <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}">here</a>!
       </div>
     </div>
@@ -64,7 +64,7 @@ window.TEAM_ID = '{{ team_id }}';
         </div>
     </div>
   </div>
-  <div class="">
+  <div class="streams">
   {% for s in streams %}
       <div class="col-md-4 card">
         <div class="embed-responsive embed-responsive-16by9">
@@ -79,17 +79,25 @@ window.TEAM_ID = '{{ team_id }}';
           </iframe>
         </div>
         <div class="card-rows">
-          <h3 class="title">{{ s.username }}</h3>
+          <h3 class="title">{{ s.dispname }}</h3>
           <a class="light-key" href="{{ s.url }}" target="_blank">Watch on Twitch</a>
           {% if s.participant_id %}
           &nbsp;|&nbsp; <a class="light-key" href="{{ s.donate }}" target="_blank">Donate</a>
           {% endif %}
-          <h5 class="light-key">Playing:</span> {{ s.playing }}</h5>
+          <h5 class="light-key"><b>Playing:</b> <span class="trim">{{ s.playing }}</span></h5>
           <div class="flexed">
             <div class="light-text"><i class="glyphicon glyphicon-user"></i> {{ s.viewers }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-film"></i> {{ s.fps | round(2) }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-eye-open"></i> {{ s.views }}</div>
           </div>
+          {% if s.pubg %}
+          <div class="flexed">
+            <div class="light-text"><i class="glyphicon glyphicon-dashboard"></i> {{ s.pubg.kd }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-repeat"></i> {{ s.pubg.rounds }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-sunglasses"></i> {{ s.pubg.wins }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-scissors"></i> {{ s.pubg.kills }}</div>
+          </div>
+          {% endif %}
         </div>
       </div>
   {% endfor %}
