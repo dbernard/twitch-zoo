@@ -65,7 +65,8 @@ window.TEAM_ID = '{{ team_id }}';
     </div>
   </div>
   <div class="streams">
-  {% for s in streams %}
+  {% if streams %}
+    {% for s in streams %}
       <div class="col-md-4 card">
         <div class="embed-responsive embed-responsive-16by9">
           <!--<img class="img-responsive" src="{{ s.preview }}"/>-->
@@ -100,6 +101,11 @@ window.TEAM_ID = '{{ team_id }}';
           {% endif %}
         </div>
       </div>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <div class="col-md-6 col-md-offset-3">
+      <h3 class="title text-center">Sorry, we're not online yet. Please check back soon!</h3>
+    </div>
+  {% endif %}
   </div>
 {% endblock %}

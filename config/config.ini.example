@@ -1,6 +1,6 @@
 [APP]
-CLIENT_ID=3fge9xezwhokxo0v1wl15bmj03q22cu
-TEAM_ID=35621
+CLIENT_ID=your_twitch_client_id
+TEAM_ID=your_extra_life_team_id
 
 [GAMES]
 PUBG_API_KEY=
