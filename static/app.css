@@ -36,8 +36,6 @@ a:hover {
 .header {
     padding-bottom: 20px;
     bottom: 0px;
-    display: flex;
-    justify-content: space-between;
     background: url(images/sat.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
