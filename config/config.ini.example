@@ -1,0 +1,13 @@
+[APP]
+CLIENT_ID=your_twitch_client_id
+TEAM_ID=your_extra_life_team_id
+
+[GAMES]
+PUBG_API_KEY=
+
+[USER_KWONSTANT]
+NAME=Justin
+TWITCH=kwonstant
+EXTRALIFE=266807
+PUBG=kwonstant
+BLIZZARD=JayKwon#1164

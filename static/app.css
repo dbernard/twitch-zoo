@@ -29,9 +29,23 @@ a:hover {
     padding-bottom: 4px;
 }
 
+.streams {
+  padding-top: 8px;
+}
+
 .header {
     padding-bottom: 20px;
     bottom: 0px;
+    background: url(images/sat.png) no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding: 0px 2vw 0px 2vw;
+}
+
+.header img {
+  height: 125px;
 }
 
 .flexed {
@@ -102,4 +116,7 @@ a:hover {
 
 .progress-fundraising-link .glyphicon {
 	top: 3px;
+
+.trim {
+	text-overflow: ellipsis;
 }
