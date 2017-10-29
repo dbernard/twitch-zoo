@@ -36,8 +36,6 @@ a:hover {
 .header {
     padding-bottom: 20px;
     bottom: 0px;
-    display: flex;
-    justify-content: space-between;
     background: url(images/sat.png) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -66,6 +64,23 @@ a:hover {
     padding-bottom: 4px;
 }
 
+#teamProgress {
+	margin-top: 20px;
+	height: 30px;
+}
+
+.progress {
+	background-color: #323232;
+}
+
+.progress-bar-success {
+	background-color: #77b300;
+}
+
+#teamProgress .progress-bar {
+	line-height: 30px;
+	font-size: 20px;
+
 .trim {
-  text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
