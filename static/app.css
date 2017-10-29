@@ -1,32 +1,32 @@
 body {
-    background-color: #212121;
-    color: #fff;
+  background-color: #212121;
+  color: #fff;
 }
 
 a {
-    color: #F16824;
+  color: #F16824;
 }
 a:hover {
-    color: darkorange;
+  color: darkorange;
 }
 
 .light-key {
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    font-weight: 300;
-    opacity: 0.8;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 300;
+  opacity: 0.8;
 }
 
 .light-text {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .title {
-    font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .row {
-    padding-bottom: 4px;
+  padding-bottom: 4px;
 }
 
 .streams {
@@ -34,16 +34,16 @@ a:hover {
 }
 
 .header {
-    padding-bottom: 20px;
-    bottom: 0px;
-    display: flex;
-    justify-content: space-between;
-    background: url(images/sat.png) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    padding: 0px 2vw 0px 2vw;
+  padding-bottom: 20px;
+  bottom: 0px;
+  display: flex;
+  justify-content: space-between;
+  background: url(images/sat.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 0px 2vw 0px 2vw;
 }
 
 .header img {
@@ -51,21 +51,26 @@ a:hover {
 }
 
 .flexed {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
 }
 
 .card {
-    text-align: center;
-    margin-bottom: 8px;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .card-rows {
-    padding-top: 4px;
-    padding-bottom: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 .trim {
   text-overflow: ellipsis;
+}
+
+.ghost-key {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
 }

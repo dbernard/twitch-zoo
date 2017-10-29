@@ -61,7 +61,6 @@ def build_streamer_json(stream, user_info):
     user = user_info.get('TWITCH')
     donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
-    print(user_info)
     s = {
         'dispname': user_info['NAME'],
         'username': user_info['TWITCH'],
