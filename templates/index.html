@@ -72,10 +72,21 @@
           </div>
           {% if s.pubg %}
           <div class="flexed">
+            <div class="light-text"><em>PUBG </em></div>
+            //
             <div class="light-text"><i class="glyphicon glyphicon-dashboard"></i> {{ s.pubg.kd }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-repeat"></i> {{ s.pubg.rounds }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-sunglasses"></i> {{ s.pubg.wins }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-scissors"></i> {{ s.pubg.kills }}</div>
+          </div>
+          {% endif %}
+          {% if s.overwatch %}
+          <div class="flexed">
+            <div class="light-text"><em>Overwatch </em></div>
+            <div class="light-text"><i class="glyphicon glyphicon-screenshot"></i> {{ s.overwatch.most_elims }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-heart-empty"></i> {{ s.overwatch.most_dmg }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-sort"></i> {{ s.overwatch.most_assists }}</div>
+            <div class="light-text"><i class="glyphicon glyphicon-fire"></i> {{ s.overwatch.most_fire }}</div>
           </div>
           {% endif %}
         </div>

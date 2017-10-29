@@ -5,7 +5,7 @@ from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
 
 import humanize
-from games import pubg
+from games import pubg, overwatch
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
@@ -81,6 +81,12 @@ def build_streamer_json(stream, user_info):
         except KeyError as exc:
             s['pubg'] = {}
 
+    if user_info.get('BLIZZARD'):
+        try:
+            s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
+        except KeyError as exc:
+            s['overwatch'] = {}
+
     if not stream['stream']:
         return s
 
@@ -105,7 +111,6 @@ def get_streams(streamers):
 
     for user in streamers:
         twitch = user.get('TWITCH')
-        extralife = user.get('EXTRALIFE')
         try:
             stream = get_twitch_stream(twitch)
             info = build_streamer_json(stream, user)

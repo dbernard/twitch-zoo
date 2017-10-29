@@ -85,4 +85,8 @@ def stats(name):
     :returns: the simplified stats for a given account name
 
     """
-    return get_stats_simple(name)
+    try:
+        response = get_stats_simple(name)
+    except json.decoder.JSONDecodeError as exc:
+        response = {}
+    return response
