@@ -1,10 +1,12 @@
-import json
-import requests
 import configparser
-from flask import Flask, render_template, jsonify
-from flask_bootstrap import Bootstrap
+import json
 
 import humanize
+import requests
+from flask import Flask, jsonify, render_template
+from flask_bootstrap import Bootstrap
+from flask_cache import Cache
+
 from games import pubg
 
 config = configparser.ConfigParser()
@@ -13,6 +15,8 @@ config.read('config/config.ini')
 client_id = config['APP']['CLIENT_ID']
 team_id = config['APP']['TEAM_ID']
 
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+
 def create_app():
     """Create the Flask app with Bootstrap requirements.
 
@@ -20,7 +24,7 @@ def create_app():
     """
     app = Flask(__name__)
     Bootstrap(app)
-
+    cache.init_app(app)
     return app
 
 
@@ -59,7 +63,7 @@ def build_streamer_json(stream, user_info):
     """
     participant_id = user_info.get('EXTRALIFE')
     user = user_info.get('TWITCH')
-    donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
+    donate_url = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
     print(user_info)
     s = {
@@ -94,6 +98,7 @@ def build_streamer_json(stream, user_info):
     return s
 
 
+@cache.cached(timeout=10, key_prefix='get_streams')
 def get_streams(streamers):
     """Get stream information about each streamer provided.
 
@@ -105,7 +110,6 @@ def get_streams(streamers):
 
     for user in streamers:
         twitch = user.get('TWITCH')
-        extralife = user.get('EXTRALIFE')
         try:
             stream = get_twitch_stream(twitch)
             info = build_streamer_json(stream, user)
