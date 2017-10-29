@@ -1,15 +1,18 @@
+import logging
 import json
+
 import requests
 import configparser
+import humanize
+import daiquiri
 from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
 
-import humanize
 from games import pubg, overwatch
+
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
-
 client_id = config['APP']['CLIENT_ID']
 
 
@@ -61,7 +64,6 @@ def build_streamer_json(stream, user_info):
     user = user_info.get('TWITCH')
     donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
-    print(user_info)
     s = {
         'dispname': user_info['NAME'],
         'username': user_info['TWITCH'],
@@ -134,7 +136,6 @@ def streamers():
     """Get the JSON representation of stream information (useful for debugging).
     """
     streams = get_streams(get_users())
-
     return jsonify(streams)
 
 
