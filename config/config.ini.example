@@ -1,6 +1,7 @@
 [APP]
 CLIENT_ID=your_twitch_client_id
 TEAM_ID=your_extra_life_team_id
+PAGE_TITLE=your_page_title
 
 [GAMES]
 PUBG_API_KEY=

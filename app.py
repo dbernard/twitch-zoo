@@ -12,6 +12,7 @@ config.read('config/config.ini')
 
 client_id = config['APP']['CLIENT_ID']
 team_id = config['APP']['TEAM_ID']
+page_title = config['APP']['PAGE_TITLE']
 
 def create_app():
     """Create the Flask app with Bootstrap requirements.
@@ -122,7 +123,8 @@ def index():
     """Render the main index page with stream information.
     """
     streams = get_streams(get_users())
-    return render_template('index.html', streams=streams, team_id=team_id)
+    return render_template('index.html', streams=streams, team_id=team_id,
+                           page_title=page_title)
 
 @app.route('/streamers')
 def streamers():
