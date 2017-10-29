@@ -78,7 +78,7 @@ def build_streamer_json(stream, user_info):
     if user_info.get('PUBG'):
         try:
             s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
-        except KeyError as exc:
+        except (KeyError, json.JSONDecodeError):
             s['pubg'] = {}
 
     if not stream['stream']:
