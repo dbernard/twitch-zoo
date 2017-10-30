@@ -119,6 +119,7 @@
             </div>
             {% if s.pubg %}
             <div class="flexed">
+                <div class="light-text"><em>PUBG </em></div>
                 <div class="light-text pubg-kd">
                     <i class="glyphicon glyphicon-dashboard"></i>
                     <span>{{ s.pubg.kd }}</span>
@@ -137,10 +138,31 @@
                 </div>
             </div>
             {% endif %}
+            {% if s.overwatch %}
+            <div class="flexed">
+                <div class="light-text"><em>Overwatch </em></div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-screenshot"></i>
+                    <span>{{ s.overwatch.most_elims }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-heart-empty"></i>
+                    <span>{{ s.overwatch.most_dmg }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-sort"></i>
+                    <span>{{ s.overwatch.most_assists }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-fire"></i>
+                    <span>{{ s.overwatch.most_fire }}</span>
+                </div>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
-  {% else %}
+    {% else %}
     <div class="col-md-6 col-md-offset-3">
       <h3 class="title text-center">Sorry, we're not online yet. Please check back soon!</h3>
     </div>

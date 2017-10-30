@@ -7,11 +7,10 @@ from flask import Flask, jsonify, render_template
 from flask_bootstrap import Bootstrap
 from flask_cache import Cache
 
-from games import pubg
+from games import overwatch, pubg
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
-
 client_id = config['APP']['CLIENT_ID']
 team_id = config['APP']['TEAM_ID']
 
@@ -65,7 +64,6 @@ def build_streamer_json(stream, user_info):
     user = user_info.get('TWITCH')
     donate_url = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
-    print(user_info)
     s = {
         'dispname': user_info['NAME'],
         'username': user_info['TWITCH'],
@@ -84,6 +82,12 @@ def build_streamer_json(stream, user_info):
             s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
         except (KeyError, json.JSONDecodeError):
             s['pubg'] = {}
+
+    if user_info.get('BLIZZARD'):
+        try:
+            s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
+        except KeyError as exc:
+            s['overwatch'] = {}
 
     if not stream['stream']:
         return s
@@ -133,7 +137,6 @@ def streamers():
     """Get the JSON representation of stream information (useful for debugging).
     """
     streams = get_streams(get_users())
-
     return jsonify(streams)
 
 
