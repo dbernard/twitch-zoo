@@ -1,17 +1,20 @@
+import logging
 import json
+
 import requests
 import configparser
+import humanize
+import daiquiri
 from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
 
-import humanize
 from games import pubg, overwatch
+
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
-
 client_id = config['APP']['CLIENT_ID']
-
+team_id = config['APP']['TEAM_ID']
 
 def create_app():
     """Create the Flask app with Bootstrap requirements.
@@ -117,7 +120,8 @@ def get_streams(streamers):
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", twitch, htp)
 
-    return filter(lambda s: s['playing'] != 'Offline', streams)
+    return list(sorted((s for s in streams if s['playing'] != 'Offline'),
+                       key=lambda s: s['viewers'], reverse=True))
 
 
 @app.route('/')
@@ -125,15 +129,13 @@ def index():
     """Render the main index page with stream information.
     """
     streams = get_streams(get_users())
-    return render_template('index.html', streams=streams)
-
+    return render_template('index.html', streams=streams, team_id=team_id)
 
 @app.route('/streamers')
 def streamers():
     """Get the JSON representation of stream information (useful for debugging).
     """
     streams = get_streams(get_users())
-
     return jsonify(streams)
 
 

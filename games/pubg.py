@@ -1,5 +1,6 @@
 """Module to ease interaction with PlayerUnknown's Battlegrounds."""
 
+import warnings
 from functools import lru_cache
 
 from pypubg import core
@@ -88,5 +89,6 @@ def stats(name):
     try:
         response = get_stats_simple(name)
     except json.decoder.JSONDecodeError as exc:
+        warnings.warn('PUBG API appears down. {}'.format(exc))
         response = {}
     return response

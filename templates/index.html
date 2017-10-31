@@ -3,9 +3,17 @@
 
 {% block styles %}
 {{ super() }}
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-<link rel="stylesheet" href="{{ url_for('.static', filename='app.css')}}">
+<link rel="shortcut icon" href="{{ url_for('.static', filename='favicon.ico') }}">
+<link rel="stylesheet" href="{{ url_for('.static', filename='app.css') }}">
 <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+{% endblock %}
+
+{% block scripts %}
+<script charset="utf-8">
+window.TEAM_ID = '{{ team_id }}';
+</script>
+<script src="{{ url_for('.static', filename='progress.js') }}" charset="utf-8"></script>
+{{ super () }}
 {% endblock %}
 
 {% block navbar %}
@@ -19,7 +27,7 @@
     <div class="row flexed hidden-sm hidden-xs">
       <div class="col-md-5">
         Join us on November 4th 2017 and watch the team raise money for great children's charities! You can see our team's progress
-        <a href="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=29327">here</a>!
+        <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}">here</a>!
       </div>
       <div class="col-md-4">
         <img class="img-responsive" src="{{ url_for('.static', filename='images/Extra Life_whiteblue.png') }}">
@@ -34,18 +42,31 @@
         <img class="img-responsive" src="{{ url_for('.static', filename='images/Extra Life_whiteblue.png') }}">
       </div>
       <div class="col-sm-12 col-xs-12">
-        <img class="img-responsive" src="{{ url_for('.static', filename='images/logo.png') }}">
+        <img class="img-responsive" src="{{ url_for('.static', filename='images/dg.png') }}">
       </div>
       <div class="col-sm-12 col-xs-12">
         Join us on November 4th 2017 and watch the team raise money for great children's charities! You can see our team's progress
-        <a href="http://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID=29327">here</a>!
+        <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}">here</a>!
       </div>
     </div>
     <!-- END Mobile visible header -->
-    <hr class="small" />
+    <div class="row">
+        <div class="col-md-12">
+            <div id="teamProgress" class="progress">
+                <div class="progress-bar progress-bar-success"
+                 role="progressbar"
+                 aria-valuemin="0"
+                 aria-valuemax="0"
+                 aria-valuenow="0">
+                    Loading team progress...
+                </div>
+            </div>
+        </div>
+    </div>
   </div>
   <div class="streams">
-  {% for s in streams %}
+  {% if streams %}
+    {% for s in streams %}
       <div class="col-md-4 card">
         <div class="embed-responsive embed-responsive-16by9">
           <!--<img class="img-responsive" src="{{ s.preview }}"/>-->
@@ -90,6 +111,11 @@
           {% endif %}
         </div>
       </div>
-  {% endfor %}
+    {% endfor %}
+  {% else %}
+    <div class="col-md-6 col-md-offset-3">
+      <h3 class="title text-center">Sorry, we're not online yet. Please check back soon!</h3>
+    </div>
+  {% endif %}
   </div>
 {% endblock %}
