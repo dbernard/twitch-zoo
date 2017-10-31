@@ -13,6 +13,8 @@ import games
 config = configparser.ConfigParser()
 config.read('config/config.ini')
 client_id = config['APP']['CLIENT_ID']
+team_id = config['APP']['TEAM_ID']
+page_title = config['APP']['PAGE_TITLE']
 
 
 def create_app():
@@ -90,18 +92,6 @@ def build_streamer_json(stream, user_info):
             except KeyError as exc:
                 s[key] = {}
 
-    # if user_info.get('PUBG'):
-    #     try:
-    #         s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
-    #     except KeyError as exc:
-    #         s['pubg'] = {}
-    #
-    # if user_info.get('BLIZZARD'):
-    #     try:
-    #         s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
-    #     except KeyError as exc:
-    #         s['overwatch'] = {}
-
     if not stream['stream']:
         return s
 
@@ -141,8 +131,9 @@ def index():
     """Render the main index page with stream information.
     """
     streams = get_streams(get_users())
-    return render_template('index.html', streams=streams)
-
+    return render_template('index.html', streams=streams, team_id=team_id,
+                           page_title=page_title)
+ 
 
 @app.route('/streamers')
 def streamers():
