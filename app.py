@@ -1,20 +1,19 @@
-import logging
 import json
+import importlib
 
 import requests
 import configparser
 import humanize
-import daiquiri
 from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
 
-from games import pubg, overwatch
+import games
 
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
 client_id = config['APP']['CLIENT_ID']
-team_id = config['APP']['TEAM_ID']
+
 
 def create_app():
     """Create the Flask app with Bootstrap requirements.
@@ -77,17 +76,31 @@ def build_streamer_json(stream, user_info):
         'views': 0,
     }
 
-    if user_info.get('PUBG'):
-        try:
-            s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
-        except KeyError as exc:
-            s['pubg'] = {}
+    mapping = {
+        'pubg': 'PUBG',
+        'overwatch': 'BLIZZARD',
+        'rocketleague': 'STEAM'
+    }
 
-    if user_info.get('BLIZZARD'):
-        try:
-            s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
-        except KeyError as exc:
-            s['overwatch'] = {}
+    for key, lookup in mapping.items():
+        module = importlib.import_module('games.{}'.format(key))
+        if user_info.get(lookup):
+            try:
+                s[key] = module.stats(user_info[lookup])
+            except KeyError as exc:
+                s[key] = {}
+
+    # if user_info.get('PUBG'):
+    #     try:
+    #         s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
+    #     except KeyError as exc:
+    #         s['pubg'] = {}
+    #
+    # if user_info.get('BLIZZARD'):
+    #     try:
+    #         s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
+    #     except KeyError as exc:
+    #         s['overwatch'] = {}
 
     if not stream['stream']:
         return s
@@ -120,8 +133,7 @@ def get_streams(streamers):
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", twitch, htp)
 
-    return list(sorted((s for s in streams if s['playing'] != 'Offline'),
-                       key=lambda s: s['viewers'], reverse=True))
+    return filter(lambda s: s['playing'] != 'Offline', streams)
 
 
 @app.route('/')
@@ -129,7 +141,8 @@ def index():
     """Render the main index page with stream information.
     """
     streams = get_streams(get_users())
-    return render_template('index.html', streams=streams, team_id=team_id)
+    return render_template('index.html', streams=streams)
+
 
 @app.route('/streamers')
 def streamers():
