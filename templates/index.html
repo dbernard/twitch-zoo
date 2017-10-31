@@ -85,13 +85,13 @@ window.TEAM_ID = '{{ team_id }}';
           {% if s.participant_id %}
           &nbsp;|&nbsp; <a class="light-key" href="{{ s.donate }}" target="_blank">Donate</a>
           {% endif %}
-          <h5 class="light-key"><b>Playing:</b> <span class="trim">{{ s.playing }}</span></h5>
+          <h5><span class="light-key">Playing: </span><span class="trim light-text h4"><b>{{ s.playing }}</b></span></h5>
           <div class="flexed">
             <div class="light-text"><i class="glyphicon glyphicon-user"></i> {{ s.viewers }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-film"></i> {{ s.fps | round(2) }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-eye-open"></i> {{ s.views }}</div>
           </div>
-          {% if s.pubg %}
+          {% if s.pubg and s.playing == "PLAYERUNKNOWN'S BATTLEGROUNDS" %}
           <div class="flexed">
             <div class="light-text"><em>PUBG </em></div>
             <div class="light-text"><i class="glyphicon glyphicon-dashboard"></i> {{ s.pubg.kd }}</div>
@@ -100,9 +100,9 @@ window.TEAM_ID = '{{ team_id }}';
             <div class="light-text"><i class="glyphicon glyphicon-scissors"></i> {{ s.pubg.kills }}</div>
           </div>
           {% endif %}
-          {% if s.overwatch %}
+          {% if s.overwatch and s.playing == "Overwatch" %}
           <div class="flexed">
-            <div class="light-text"><em>Overwatch </em></div>
+            <div class="ghost-key">Overwatch </div>
             <div class="light-text"><i class="glyphicon glyphicon-screenshot"></i> {{ s.overwatch.most_elims }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-heart-empty"></i> {{ s.overwatch.most_dmg }}</div>
             <div class="light-text"><i class="glyphicon glyphicon-sort"></i> {{ s.overwatch.most_assists }}</div>
