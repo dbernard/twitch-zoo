@@ -1,0 +1,69 @@
+---
+- name: add deadsnakes
+  apt_repository: repo="ppa:deadsnakes/ppa"
+
+- name: install Python packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - virtualenvwrapper
+    - python3.6
+    - python3.6-dev
+
+- name: check to see if pip is already installed
+  command: "pip3 --version"
+  ignore_errors: true
+  register: pip_is_installed
+  changed_when: false
+
+- block:
+
+  - name: download pip installer
+    get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
+
+  - name: install pip
+    command: "python /tmp/get-pip.py"
+
+  - name: delete get-pip.py
+    file: state=absent path=/tmp/get-pip.py
+
+  when: pip_is_installed.rc != 0
+
+- name: clone git repository
+  git:
+    repo: "https://github.com/dbernard/twitch-zoo.git"
+    dest: /opt/extralife/
+  when: not is_development
+
+- name: fake git repository (development only)
+  file: src=/vagrant dest=/opt/extralife state=link
+  when: is_development
+
+- name: set permissions
+  file: path=/opt/extralife/ owner="{{ ansible_user }}" group="{{ ansible_user }}" recurse=yes
+  when: not is_development
+
+- name: create virtualenvironment
+  pip:
+    virtualenv: /opt/extralife-venv
+    requirements: /opt/extralife/requirements.txt
+    virtualenv_python: python3.6
+
+- name: create venvwrapper directory
+  file: path=/home/{{ ansible_user }}/.virtualenvs state=directory owner={{ ansible_user }} group={{ ansible_user }}
+
+- name: fake a venvwrapper setup
+  file: src=/opt/extralife-venv dest=/home/{{ ansible_user }}/.virtualenvs/extralife state=link
+
+- name: set venv permissions
+  file: path=/opt/extralife-venv owner="{{ ansible_user }}" group="{{ ansible_user }}" recurse=yes
+
+- name: make uwsgi dirs
+  file: path={{ item }} state=directory owner=www-data group=www-data
+  with_items:
+    - /var/run/uwsgi
+    - /var/log/uwsgi
+
+- name: deploy application config
+  template: src=config.ini.j2 dest=/opt/extralife/config/config.ini
+  tags:
+    - config

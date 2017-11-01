@@ -1,0 +1,17 @@
+---
+- name: update packages
+  apt: update_cache=yes
+  ignore_errors: yes
+
+- name: install base packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - htop
+    - vim
+    - build-essential
+    - git
+    - ntp
+
+- name: create base dir
+  file: path=/opt/extralife state=directory owner="{{ ansible_user }}" group="{{ ansible_user }}" recurse=yes
+  when: not is_development
