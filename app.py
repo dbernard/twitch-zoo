@@ -1,5 +1,6 @@
 import logging
 import json
+import asyncio
 
 import requests
 import configparser
@@ -8,7 +9,7 @@ import daiquiri
 from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
 
-from games import pubg, overwatch
+from games import pubg, overwatch, destiny2
 
 
 config = configparser.ConfigParser()
@@ -89,6 +90,14 @@ def build_streamer_json(stream, user_info):
             s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
         except KeyError as exc:
             s['overwatch'] = {}
+
+    if user_info.get('DESTINY2'):
+        try:
+            loop = asyncio.new_event_loop()
+            s['destiny2'] = loop.run_until_complete(destiny2.stats(user_info['DESTINY2']))
+            loop.close()
+        except KeyError as exc:
+            s['destiny2'] = {}
 
     if not stream['stream']:
         return s
