@@ -1,8 +1,6 @@
 import pydest
 import asyncio
-import json
 import datetime
-from enum import Enum
 
 from games import config
 
@@ -13,9 +11,6 @@ membership_types = {
 }
 
 api_key = config['GAMES']['DESTINY2_API_KEY']
-
-def jprint(data):
-    print(json.dumps(data, indent=2))
 
 def parse_date(value):
     return datetime.datetime.strptime(value, "%Y-%m-%dT%H:%M:%SZ")
@@ -49,7 +44,7 @@ async def get_membership_id(destiny, username, membership_type):
 
     return res['Response'][0]['membershipId']
 
-async def stats(user_platform):
+async def get_stats(user_platform):
     destiny = pydest.Pydest(api_key)
 
     username, platform = user_platform.split(',')
@@ -65,5 +60,14 @@ async def stats(user_platform):
     stats = clean_stats(stats)
 
     destiny.close()
+
+    return stats
+
+def stats(user_platform):
+    loop = asyncio.new_event_loop()
+
+    stats = loop.run_until_complete(get_stats(user_platform))
+
+    loop.close()
 
     return stats

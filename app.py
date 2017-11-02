@@ -93,9 +93,7 @@ def build_streamer_json(stream, user_info):
 
     if user_info.get('DESTINY2'):
         try:
-            loop = asyncio.new_event_loop()
-            s['destiny2'] = loop.run_until_complete(destiny2.stats(user_info['DESTINY2']))
-            loop.close()
+            s['destiny2'] = destiny2.stats(user_info['DESTINY2'])
         except KeyError as exc:
             s['destiny2'] = {}
 
