@@ -1,32 +1,32 @@
 body {
-    background-color: #212121;
-    color: #fff;
+  background-color: #212121;
+  color: #fff;
 }
 
 a {
-    color: #F16824;
+  color: #F16824;
 }
 a:hover {
-    color: darkorange;
+  color: darkorange;
 }
 
 .light-key {
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    font-weight: 300;
-    opacity: 0.8;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  font-weight: 300;
+  opacity: 0.8;
 }
 
 .light-text {
-    opacity: 0.6;
+  opacity: 0.6;
 }
 
 .title {
-    font-family: 'Press Start 2P', cursive;
+  font-family: 'Press Start 2P', cursive;
 }
 
 .row {
-    padding-bottom: 4px;
+  padding-bottom: 4px;
 }
 
 .streams {
@@ -34,14 +34,14 @@ a:hover {
 }
 
 .header {
-    padding-bottom: 20px;
-    bottom: 0px;
-    background: url(images/sat.png) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    padding: 0px 2vw 0px 2vw;
+  padding-bottom: 20px;
+  bottom: 0px;
+  background: url(images/sat.png) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  padding: 0px 2vw 0px 2vw;
 }
 
 .header img {
@@ -49,28 +49,31 @@ a:hover {
 }
 
 .flexed {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-around;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
 }
 
 .card {
-    text-align: center;
-    margin-bottom: 8px;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .card-rows {
-    padding-top: 4px;
-    padding-bottom: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
 #teamProgress {
 	margin-top: 20px;
 	height: 30px;
+	line-height: 30px;
+	font-size: 20px;
 }
 
 .progress {
 	background-color: #323232;
+	position: relative;
 }
 
 .progress-bar-success {
@@ -78,9 +81,53 @@ a:hover {
 }
 
 #teamProgress .progress-bar {
-	line-height: 30px;
-	font-size: 20px;
+	line-height: inherit;
+	font-size: inherit;
+}
+
+.individual-progress.progress {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	margin-bottom: 5px;
+}
+
+.progress-fundraising-link {
+	opacity: 0;
+	text-align: center;
+	transition: opacity;
+	transition-duration: 195ms;
+	transition-timing-function: cubic-bezier(0.4, 0.0, 1, 1);
+}
+
+.progress-fundraising-link a {
+	position: absolute;
+	display: block;
+	width: 100%;
+	top: 0;
+	left: 0;
+	background-color: #77b300AA;
+	color: #fff;
+	font-weight: bold;
+}
+
+.progress-fundraising-link a:hover {
+	text-decoration: none;
+}
+
+.progress:hover .progress-fundraising-link {
+	opacity: 1;
+	transition-duration: 225ms;
+	transition-timing-function: cubic-bezier(0.0, 0.0, 0.2, 1);
+}
+
+.progress-fundraising-link .glyphicon {
+	top: 3px;
 
 .trim {
 	text-overflow: ellipsis;
+}
+
+.ghost-key {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.3);
 }
