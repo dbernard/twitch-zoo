@@ -159,6 +159,15 @@
                 </div>
             </div>
             {% endif %}
+            {% if s.rocketleague and s.playing == 'Rocket League' %}
+            <div class="flexed">
+                <div class="light-text"><em>Rocket League </em></div>
+                <div class="light-text"><i class="glyphicon glyphicon-log-in"></i> {{ s.rocketleague.goals }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-eject"></i> {{ s.rocketleague.saves }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-ok"></i> {{ s.rocketleague.wins }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-thumbs-up"></i> {{ s.rocketleague.mvps }}</div>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

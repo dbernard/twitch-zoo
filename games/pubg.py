@@ -1,5 +1,6 @@
 """Module to ease interaction with PlayerUnknown's Battlegrounds."""
 
+import json
 import warnings
 from functools import lru_cache
 
