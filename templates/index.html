@@ -10,6 +10,7 @@
 
 {% block scripts %}
 <script src="{{ url_for('.static', filename='progress.js') }}" charset="utf-8"></script>
+<script src="{{ url_for('.static', filename='stats.js') }}" charset="utf-8"></script>
 {{ super () }}
 {% endblock %}
 
@@ -68,7 +69,7 @@
   <div class="streams">
   {% if streams %}
     {% for s in streams %}
-      <div class="col-md-4 card">
+    <div class="col-md-4 card stream" data-twitch-username="{{ s.username }}">
         <div class="embed-responsive embed-responsive-16by9">
           <!--<img class="img-responsive" src="{{ s.preview }}"/>-->
           <iframe class="embed-responsive-item"
@@ -95,40 +96,73 @@
             </div>
         </div>
         {% endif %}
-        <div class="card-rows">
-          <h3 class="title">{{ s.dispname }}</h3>
-          <a class="light-key" href="{{ s.url }}" target="_blank">Watch on Twitch</a>
-          {% if s.participant_id %}
-          &nbsp;|&nbsp; <a class="light-key" href="{{ s.donate }}" target="_blank">Donate</a>
-          {% endif %}
-          <h5><span class="light-key">Playing: </span><span class="trim light-text h4"><b>{{ s.playing }}</b></span></h5>
-          <div class="flexed">
-            <div class="light-text"><i class="glyphicon glyphicon-user"></i> {{ s.viewers }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-film"></i> {{ s.fps | round(2) }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-eye-open"></i> {{ s.views }}</div>
-          </div>
-          {% if s.pubg and s.playing == "PLAYERUNKNOWN'S BATTLEGROUNDS" %}
-          <div class="flexed">
-            <div class="light-text"><em>PUBG </em></div>
-            <div class="light-text"><i class="glyphicon glyphicon-dashboard"></i> {{ s.pubg.kd }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-repeat"></i> {{ s.pubg.rounds }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-sunglasses"></i> {{ s.pubg.wins }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-scissors"></i> {{ s.pubg.kills }}</div>
-          </div>
-          {% endif %}
-          {% if s.overwatch and s.playing == "Overwatch" %}
-          <div class="flexed">
-            <div class="ghost-key">Overwatch </div>
-            <div class="light-text"><i class="glyphicon glyphicon-screenshot"></i> {{ s.overwatch.most_elims }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-heart-empty"></i> {{ s.overwatch.most_dmg }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-sort"></i> {{ s.overwatch.most_assists }}</div>
-            <div class="light-text"><i class="glyphicon glyphicon-fire"></i> {{ s.overwatch.most_fire }}</div>
-          </div>
-          {% endif %}
+        <div class="card-rows stats">
+            <h3 class="title">{{ s.dispname }}</h3>
+            <a class="light-key" href="{{ s.url }}" target="_blank">Watch on Twitch</a>
+            {% if s.participant_id %}
+            &nbsp;|&nbsp; <a class="light-key" href="{{ s.donate }}" target="_blank">Donate</a>
+            {% endif %}
+            <h5 class="light-key"><b>Playing:</b> <span class="trim">{{ s.playing }}</span></h5>
+            <div class="flexed">
+                <div class="light-text viewers">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <span>{{ s.viewers }}<span>
+                </div>
+                <div class="light-text fps">
+                    <i class="glyphicon glyphicon-film"></i>
+                    <span>{{ s.fps | round(2) }}</span>
+                </div>
+                <div class="light-text views">
+                    <i class="glyphicon glyphicon-eye-open"></i>
+                    <span>{{ s.views }}<span>
+                </div>
+            </div>
+            {% if s.pubg and s.playing == "PLAYERUNKNOWN'S BATTLEGROUNDS" %}
+            <div class="flexed">
+                <div class="light-text"><em>PUBG </em></div>
+                <div class="light-text pubg-kd">
+                    <i class="glyphicon glyphicon-dashboard"></i>
+                    <span>{{ s.pubg.kd }}</span>
+                </div>
+                <div class="light-text pubg-rounds">
+                    <i class="glyphicon glyphicon-repeat"></i>
+                    <span>{{ s.pubg.rounds }}</span>
+                </div>
+                <div class="light-text pubg-wins">
+                    <i class="glyphicon glyphicon-sunglasses"></i>
+                    <span>{{ s.pubg.wins }}</span>
+                </div>
+                <div class="light-text pubg-kills">
+                    <i class="glyphicon glyphicon-scissors"></i>
+                    <span>{{ s.pubg.kills }}</span>
+                </div>
+            </div>
+            {% endif %}
+            {% if s.overwatch and s.playing == "Overwatch" %}
+            <div class="flexed">
+                <div class="light-text"><em>Overwatch </em></div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-screenshot"></i>
+                    <span>{{ s.overwatch.most_elims }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-heart-empty"></i>
+                    <span>{{ s.overwatch.most_dmg }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-sort"></i>
+                    <span>{{ s.overwatch.most_assists }}</span>
+                </div>
+                <div class="light-text">
+                    <i class="glyphicon glyphicon-fire"></i>
+                    <span>{{ s.overwatch.most_fire }}</span>
+                </div>
+            </div>
+            {% endif %}
         </div>
-      </div>
+    </div>
     {% endfor %}
-  {% else %}
+    {% else %}
     <div class="col-md-6 col-md-offset-3">
       <h3 class="title text-center">Sorry, we're not online yet. Please check back soon!</h3>
     </div>

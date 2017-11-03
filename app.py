@@ -1,21 +1,21 @@
-import logging
+import configparser
 import json
 
-import requests
-import configparser
 import humanize
-import daiquiri
-from flask import Flask, render_template, jsonify
+import requests
+from flask import Flask, jsonify, render_template
 from flask_bootstrap import Bootstrap
+from flask_cache import Cache
 
-from games import pubg, overwatch
-
+from games import overwatch, pubg
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
 client_id = config['APP']['CLIENT_ID']
 team_id = config['APP']['TEAM_ID']
 page_title = config['APP']['PAGE_TITLE']
+
+cache = Cache(config={'CACHE_TYPE': 'simple'})
 
 def create_app():
     """Create the Flask app with Bootstrap requirements.
@@ -24,7 +24,7 @@ def create_app():
     """
     app = Flask(__name__)
     Bootstrap(app)
-
+    cache.init_app(app)
     return app
 
 
@@ -63,7 +63,7 @@ def build_streamer_json(stream, user_info):
     """
     participant_id = user_info.get('EXTRALIFE')
     user = user_info.get('TWITCH')
-    donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
+    donate_url = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
     s = {
         'dispname': user_info['NAME'],
@@ -81,7 +81,7 @@ def build_streamer_json(stream, user_info):
     if user_info.get('PUBG'):
         try:
             s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
-        except KeyError as exc:
+        except (KeyError, json.JSONDecodeError):
             s['pubg'] = {}
 
     if user_info.get('BLIZZARD'):
@@ -103,6 +103,7 @@ def build_streamer_json(stream, user_info):
     return s
 
 
+@cache.cached(timeout=10, key_prefix='get_streams')
 def get_streams(streamers):
     """Get stream information about each streamer provided.
 
