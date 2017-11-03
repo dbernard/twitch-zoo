@@ -110,7 +110,6 @@ def build_streamer_json(stream, user_info):
 @cache.cached(timeout=10, key_prefix='get_streams')
 def get_streams(streamers):
     """Get stream information about each streamer provided.
-
     :param streamers: A list of streamer usernames and their Extra Life
                       participant ID's if applicable
     :return: A list of relevant streamer info for each streamer
@@ -126,7 +125,8 @@ def get_streams(streamers):
         except requests.exceptions.HTTPError as htp:
             app.logger.error("Couldn't load user '%s': %s", twitch, htp)
 
-    return filter(lambda s: s['playing'] != 'Offline', streams)
+    return list(sorted((s for s in streams if s['playing'] != 'Offline'),
+                       key=lambda s: s['viewers'], reverse=True))
 
 
 @app.route('/')
@@ -136,7 +136,7 @@ def index():
     streams = get_streams(get_users())
     return render_template('index.html', streams=streams, team_id=team_id,
                            page_title=page_title)
- 
+
 
 @app.route('/streamers')
 def streamers():
