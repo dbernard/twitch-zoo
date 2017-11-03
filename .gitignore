@@ -103,3 +103,14 @@ ENV/
 
 # Avoid checking in production config file
 config.ini
+
+# Created by https://www.gitignore.io/api/ansible,vagrant
+
+### Ansible ###
+*.retry
+
+### Vagrant ###
+.vagrant/
+*.box
+
+# End of https://www.gitignore.io/api/ansible,vagrant

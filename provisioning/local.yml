@@ -1,0 +1,14 @@
+---
+- name: Build web instance
+  hosts: all
+  become: yes
+  become_method: sudo
+  vars_files:
+    - vars/hg-extralife.yml
+  vars:
+    - is_development: True
+    - ansible_python_interpreter: /usr/bin/python3
+  roles:
+    - common
+    - nginx
+    - python

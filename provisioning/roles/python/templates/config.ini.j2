@@ -1,0 +1,15 @@
+[APP]
+CLIENT_ID={{ twitch_client_id }}
+TEAM_ID={{ extralife_team_id }}
+PAGE_TITLE={{ page_title }}
+
+[GAMES]
+PUBG_API_KEY={{ pubg_api_key }}
+
+{% for user in extralife_users %}
+[USER_{{ user.twitch | upper }}]
+NAME={{ user.name }}
+TWITCH={{ user.twitch }}
+EXTRALIFE={{ user.extralife }}
+
+{% endfor %}
