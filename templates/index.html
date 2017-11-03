@@ -9,9 +9,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script charset="utf-8">
-window.TEAM_ID = '{{ team_id }}';
-</script>
 <script src="{{ url_for('.static', filename='progress.js') }}" charset="utf-8"></script>
 {{ super () }}
 {% endblock %}
@@ -55,10 +52,14 @@ window.TEAM_ID = '{{ team_id }}';
             <div id="teamProgress" class="progress">
                 <div class="progress-bar progress-bar-success"
                  role="progressbar"
+                 data-fundraising-id="{{ team_id }}"
                  aria-valuemin="0"
                  aria-valuemax="0"
                  aria-valuenow="0">
                     Loading team progress...
+                </div>
+                <div class="progress-fundraising-link">
+                    <a href="https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&teamID={{ team_id }}" target="_blank"><i class="glyphicon glyphicon-usd"></i> Donate to the team!</a>
                 </div>
             </div>
         </div>
@@ -79,6 +80,21 @@ window.TEAM_ID = '{{ team_id }}';
               allowfullscreen="true">
           </iframe>
         </div>
+        {% if s.participant_id %}
+        <div class="progress individual-progress">
+            <div class="progress-bar progress-bar-success"
+                 role="progressbar"
+                 data-fundraising-id="{{ s.participant_id }}"
+                 aria-valuemin="0"
+                 aria-valuemax="0"
+                 aria-valuenow="0">
+                Loading {{ s.username }}'s progress...
+            </div>
+            <div class="progress-fundraising-link">
+                <a href="{{ s.donate }}" target="_blank"><i class="glyphicon glyphicon-usd"></i> Donate to {{ s.dispname }}!</a>
+            </div>
+        </div>
+        {% endif %}
         <div class="card-rows">
           <h3 class="title">{{ s.dispname }}</h3>
           <a class="light-key" href="{{ s.url }}" target="_blank">Watch on Twitch</a>

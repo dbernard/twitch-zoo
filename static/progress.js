@@ -1,5 +1,6 @@
-(function(Console, Document, Timer, TEAM_ID) {
+(function(Console, Document, Timer) {
     const TEAM_URL = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.team&format=json&teamID=';
+    const INDIVIDUAL_URL = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.participant&format=json&participantID=';
 
     function fetchJSON(url) {
         const headers = new Headers({
@@ -12,18 +13,27 @@
         return fetch(new Request(url, init));
     }
 
-    class TeamProgressBar {
-        constructor(team_id) {
-            this.team_id = team_id;
+    function getFundraisingId(element) {
+        const fundraisingId = element.dataset.fundraisingId;
+        if (fundraisingId === undefined) {
+            throw 'Fundraising ID not found!';
+        }
+        return fundraisingId;
+    }
+
+    class FundraisingProgressBar {
+        constructor(progressElement, endpoint) {
+            this.endpoint = endpoint;
             this.min = 0;
             this.max = 0;
             this.current = 0;
             this.label = 'Loading team progress...';
+            this.progressElement = progressElement;
             this.render();
         }
 
         loadData() {
-            return fetchJSON(`${TEAM_URL}${this.team_id}`).then((response) => {
+            return fetchJSON(this.endpoint).then((response) => {
                 if (response.ok) {
                     return response.json();
                 } else {
@@ -38,11 +48,10 @@
         }
 
         render() {
-            const progress = Document.querySelector('#teamProgress > .progress-bar');
-            progress.setAttribute('aria-valuemax', this.max);
-            progress.setAttribute('aria-valuenow', this.current);
-            progress.style.minWidth = `${100 * this.current / (this.max || 1)}%`;
-            progress.innerText = this.label;
+            this.progressElement.setAttribute('aria-valuemax', this.max);
+            this.progressElement.setAttribute('aria-valuenow', this.current);
+            this.progressElement.style.minWidth = `${100 * this.current / (this.max || 1)}%`;
+            this.progressElement.innerText = this.label;
         }
 
         start() {
@@ -57,6 +66,13 @@
             }
         }
     }
-    const teamProgress = new TeamProgressBar(TEAM_ID);
+    const teamProgressElement = Document.querySelector('#teamProgress > .progress-bar');
+    const teamProgress = new FundraisingProgressBar(teamProgressElement,
+                                                    `${TEAM_URL}${getFundraisingId(teamProgressElement)}`);
     teamProgress.start();
-})(console, document, window, window.TEAM_ID);
+    for (const individualProgressElement of Document.querySelectorAll('.individual-progress > .progress-bar')) {
+        const individualProgress = new FundraisingProgressBar(individualProgressElement,
+            `${INDIVIDUAL_URL}${getFundraisingId(individualProgressElement)}`);
+        individualProgress.start();
+    }
+})(console, document, window);
