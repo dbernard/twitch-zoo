@@ -1,5 +1,5 @@
 {% extends "bootstrap/base.html" %}
-{% block title %}HumanGeo Extra Life{% endblock %}
+{% block title %}{{ page_title }}{% endblock %}
 
 {% block styles %}
 {{ super() }}
@@ -117,7 +117,7 @@
                     <span>{{ s.views }}<span>
                 </div>
             </div>
-            {% if s.pubg %}
+            {% if s.pubg and s.playing == "PLAYERUNKNOWN'S BATTLEGROUNDS" %}
             <div class="flexed">
                 <div class="light-text"><em>PUBG </em></div>
                 <div class="light-text pubg-kd">
@@ -138,7 +138,7 @@
                 </div>
             </div>
             {% endif %}
-            {% if s.overwatch %}
+            {% if s.overwatch and s.playing == "Overwatch" %}
             <div class="flexed">
                 <div class="light-text"><em>Overwatch </em></div>
                 <div class="light-text">
