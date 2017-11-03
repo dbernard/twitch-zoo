@@ -168,6 +168,15 @@
                 <div class="light-text"><i class="glyphicon glyphicon-thumbs-up"></i> {{ s.rocketleague.mvps }}</div>
             </div>
             {% endif %}
+            {% if s.destiny2 and s.playing == "Destiny 2" %}
+            <div class="flexed">
+                <div class="light-text">Destiny 2 </div>
+                <div class="light-text"><i class="glyphicon glyphicon-screenshot"></i> {{ s.destiny2.bestKills }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-stats"></i> {{ s.destiny2.combatRating }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-dashboard"></i> {{ s.destiny2.kd }}</div>
+                <div class="light-text"><i class="glyphicon glyphicon-heart"></i> {{ s.destiny2.weapon }}</div>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

@@ -5,6 +5,7 @@ PAGE_TITLE=your_page_title
 
 [GAMES]
 PUBG_API_KEY=
+DESTINY2_API_KEY=
 
 [USER_KWONSTANT]
 NAME=Justin
@@ -12,3 +13,4 @@ TWITCH=kwonstant
 EXTRALIFE=266807
 PUBG=kwonstant
 BLIZZARD=JayKwon#1164
+DESTINY2=username,platform

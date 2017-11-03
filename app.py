@@ -83,7 +83,8 @@ def build_streamer_json(stream, user_info):
     mapping = {
         'pubg': 'PUBG',
         'overwatch': 'BLIZZARD',
-        'rocketleague': 'STEAM'
+        'rocketleague': 'STEAM',
+        'destiny2': 'DESTINY2'
     }
 
     for key, lookup in mapping.items():

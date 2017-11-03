@@ -14,4 +14,5 @@ humanize==0.5.1
 pypubg==0.1.5
 overwatch-api==0.5
 -e git+git://github.com/jaykwon/python-overwatch.git@master#egg=python-overwatch
+git+git://github.com/jgayfer/pydest.git@master
 Flask-Cache==0.13.1
