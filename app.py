@@ -1,21 +1,23 @@
-import logging
-import json
-
-import requests
 import configparser
+import json
+import importlib
+
 import humanize
-import daiquiri
+import requests
 from flask import Flask, render_template, jsonify
 from flask_bootstrap import Bootstrap
+from flask_cache import Cache
 
-from games import pubg, overwatch, destiny2
-
+import games
 
 config = configparser.ConfigParser()
 config.read('config/config.ini')
 client_id = config['APP']['CLIENT_ID']
 team_id = config['APP']['TEAM_ID']
 page_title = config['APP']['PAGE_TITLE']
+
+cache = Cache(config={'CACHE_TYPE': 'simple'})
+
 
 def create_app():
     """Create the Flask app with Bootstrap requirements.
@@ -24,7 +26,7 @@ def create_app():
     """
     app = Flask(__name__)
     Bootstrap(app)
-
+    cache.init_app(app)
     return app
 
 
@@ -63,7 +65,7 @@ def build_streamer_json(stream, user_info):
     """
     participant_id = user_info.get('EXTRALIFE')
     user = user_info.get('TWITCH')
-    donate_url = 'http://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
+    donate_url = 'https://www.extra-life.org/index.cfm?fuseaction=donorDrive.' \
                  'participant&participantID={}'.format(participant_id)
     s = {
         'dispname': user_info['NAME'],
@@ -78,23 +80,20 @@ def build_streamer_json(stream, user_info):
         'views': 0,
     }
 
-    if user_info.get('PUBG'):
-        try:
-            s['pubg'] = pubg.get_stats_simple(user_info['PUBG'])
-        except KeyError as exc:
-            s['pubg'] = {}
+    mapping = {
+        'pubg': 'PUBG',
+        'overwatch': 'BLIZZARD',
+        'rocketleague': 'STEAM',
+        'destiny2': 'DESTINY2'
+    }
 
-    if user_info.get('BLIZZARD'):
-        try:
-            s['overwatch'] = overwatch.stats(user_info['BLIZZARD'])
-        except KeyError as exc:
-            s['overwatch'] = {}
-
-    if user_info.get('DESTINY2'):
-        try:
-            s['destiny2'] = destiny2.stats(user_info['DESTINY2'])
-        except KeyError as exc:
-            s['destiny2'] = {}
+    for key, lookup in mapping.items():
+        module = importlib.import_module('games.{}'.format(key))
+        if user_info.get(lookup):
+            try:
+                s[key] = module.stats(user_info[lookup])
+            except KeyError as exc:
+                s[key] = {}
 
     if not stream['stream']:
         return s
@@ -109,9 +108,9 @@ def build_streamer_json(stream, user_info):
     return s
 
 
+@cache.cached(timeout=10, key_prefix='get_streams')
 def get_streams(streamers):
     """Get stream information about each streamer provided.
-
     :param streamers: A list of streamer usernames and their Extra Life
                       participant ID's if applicable
     :return: A list of relevant streamer info for each streamer
@@ -138,6 +137,7 @@ def index():
     streams = get_streams(get_users())
     return render_template('index.html', streams=streams, team_id=team_id,
                            page_title=page_title)
+
 
 @app.route('/streamers')
 def streamers():
