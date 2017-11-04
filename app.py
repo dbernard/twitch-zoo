@@ -80,23 +80,25 @@ def build_streamer_json(stream, user_info):
         'views': 0,
     }
 
-    mapping = {
-        'pubg': 'PUBG',
-        'overwatch': 'BLIZZARD',
-        'rocketleague': 'STEAM',
-        'destiny2': 'DESTINY2'
-    }
+    if not stream['stream']:
+        return s
 
-    for key, lookup in mapping.items():
+    mapping = [
+        ('pubg', 'PUBG', "PLAYERUNKNOWN'S BATTLEGROUNDS", ),
+        ('overwatch', 'BLIZZARD', 'Overwatch', ),
+        ('rocketleague', 'STEAM', 'Rocket League', ),
+        ('destiny2', 'DESTINY2', 'Destiny 2', )
+    ]
+
+    for key, lookup, twitch_name in mapping:
         module = importlib.import_module('games.{}'.format(key))
         if user_info.get(lookup):
+            if stream['stream'].get('game') != twitch_name:
+                continue
             try:
                 s[key] = module.stats(user_info[lookup])
             except KeyError as exc:
                 s[key] = {}
-
-    if not stream['stream']:
-        return s
 
     s['username'] = stream['stream']['channel']['display_name']
     s['playing'] = stream['stream']['game']
